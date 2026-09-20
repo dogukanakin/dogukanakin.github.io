@@ -5,6 +5,20 @@
   const themeLabel = themeToggle?.querySelector('[data-theme-label]');
   const systemPreference = window.matchMedia('(prefers-color-scheme: dark)');
 
+  const translate = (key, fallback) => window.portfolioI18n?.t(key) || fallback;
+
+  const updateThemeControl = (isDark) => {
+    if (themeToggle) {
+      themeToggle.setAttribute(
+        'aria-label',
+        translate(isDark ? 'theme.switchToLight' : 'theme.switchToDark', isDark ? 'Switch to light mode' : 'Switch to dark mode'),
+      );
+    }
+    if (themeLabel) {
+      themeLabel.textContent = translate(isDark ? 'theme.lightLabel' : 'theme.darkLabel', isDark ? 'Light' : 'Dark');
+    }
+  };
+
   const readStoredTheme = () => {
     try {
       const stored = window.localStorage.getItem(themeKey);
@@ -29,9 +43,8 @@
     const isDark = theme === 'dark';
     if (themeToggle) {
       themeToggle.setAttribute('aria-pressed', String(isDark));
-      themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
     }
-    if (themeLabel) themeLabel.textContent = isDark ? 'Light' : 'Dark';
+    updateThemeControl(isDark);
 
     document.querySelectorAll('meta[name="theme-color"]').forEach((themeMeta) => {
       themeMeta.setAttribute('content', isDark ? '#171a1c' : '#f3eee7');
@@ -39,6 +52,10 @@
   };
 
   applyTheme(readStoredTheme() || systemTheme());
+
+  window.addEventListener('portfolio:language-changed', () => {
+    updateThemeControl(root.dataset.theme === 'dark');
+  });
 
   themeToggle?.addEventListener('click', () => {
     applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);

@@ -18,3 +18,17 @@ manifest, Open Graph/Twitter share metadata, canonical URL, `robots.txt`,
 `sitemap.xml`, and a limited `Person` JSON-LD record. The social share image is
 the local `assets/og-image.png` file; no analytics, tracking, paid service, or
 API key is required.
+
+### Localization
+
+The portfolio supports English and Turkish without a build step or backend.
+Language resolution follows this order: an explicit `?lang=en` or `?lang=tr`
+query parameter, the previously selected `language` value in `localStorage`,
+the `Europe/Istanbul` timezone, a Turkish browser locale, and English as the
+final fallback. The header language control updates the page in place, keeps
+the selected language in `localStorage`, and preserves the current URL hash.
+
+Translation dictionaries live in `locales/en.js` and `locales/tr.js`, while
+`localization.js` updates visible content and localized SEO metadata. This is a
+deterministic browser-locale fallback, not IP-based country detection; the
+site does not request location permission or call a geolocation service.

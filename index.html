@@ -7,16 +7,18 @@
     <meta name="keywords" content="Doğukan Akın, Backend Engineer, Node.js, TypeScript, PostgreSQL, microservices" />
     <meta name="theme-color" content="#f3eee7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#171a1c" media="(prefers-color-scheme: dark)" />
-    <meta property="og:title" content="Doğukan Akın — Backend Engineer" />
+    <meta property="og:title" content="Doğukan Akın — Backend Engineer | Node.js &amp; TypeScript" />
     <meta property="og:description" content="Backend Engineer focused on Node.js, TypeScript, production APIs, event-driven services, and reliable product delivery." />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="tr_TR" />
     <meta property="og:url" content="https://dogukanakin.github.io/" />
     <meta property="og:image" content="https://dogukanakin.github.io/assets/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Doğukan Akın — Backend Engineer | Node.js &amp; TypeScript" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Doğukan Akın — Backend Engineer" />
+    <meta name="twitter:title" content="Doğukan Akın — Backend Engineer | Node.js &amp; TypeScript" />
     <meta name="twitter:description" content="Backend Engineer focused on Node.js, TypeScript, production APIs, event-driven services, and reliable product delivery." />
     <meta name="twitter:image" content="https://dogukanakin.github.io/assets/og-image.png" />
     <link rel="canonical" href="https://dogukanakin.github.io/" />
@@ -25,7 +27,7 @@
     <link rel="alternate icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="manifest" href="/site.webmanifest" />
-    <title>Doğukan Akın — Backend Engineer</title>
+    <title>Doğukan Akın — Backend Engineer | Node.js &amp; TypeScript</title>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -33,6 +35,7 @@
         "name": "Doğukan Akın",
         "jobTitle": "Backend Engineer",
         "description": "Backend Engineer focused on Node.js and TypeScript.",
+        "inLanguage": "en",
         "url": "https://dogukanakin.github.io/",
         "sameAs": [
           "https://github.com/dogukanakin",
@@ -53,6 +56,35 @@
     </script>
     <script>
       (() => {
+        const normalizeLanguage = (value) => {
+          const language = typeof value === 'string' ? value.toLowerCase().slice(0, 2) : '';
+          return language === 'tr' || language === 'en' ? language : null;
+        };
+
+        let storedLanguage = null;
+        try {
+          storedLanguage = normalizeLanguage(localStorage.getItem('language'));
+        } catch {
+          storedLanguage = null;
+        }
+
+        const queryLanguage = normalizeLanguage(new URLSearchParams(window.location.search).get('lang'));
+        let timeZone = '';
+        try {
+          timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        } catch {
+          timeZone = '';
+        }
+        const languages = Array.isArray(navigator.languages) && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language];
+        const browserIsTurkish = languages.some((language) => String(language).toLowerCase().startsWith('tr'));
+        const initialLanguage = queryLanguage || storedLanguage || (timeZone === 'Europe/Istanbul' || browserIsTurkish ? 'tr' : 'en');
+
+        document.documentElement.dataset.language = initialLanguage;
+        document.documentElement.dataset.localePending = 'true';
+        window.__initialLanguage = initialLanguage;
+
         try {
           const stored = localStorage.getItem('theme');
           const system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -65,28 +97,31 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content" data-i18n="accessibility.skipToContent">Skip to content</a>
 
     <header class="site-header">
       <div class="container nav-wrap">
-        <a class="brand" href="#top" aria-label="Doğukan Akın home">
+        <a class="brand" href="#top" data-i18n-aria-label="accessibility.brandHome" aria-label="Doğukan Akın home">
           <span class="brand-mark" aria-hidden="true">DA</span>
-          <span>Doğukan Akın</span>
+          <span data-i18n="site.name">Doğukan Akın</span>
         </a>
         <div class="header-actions">
-          <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-            <a href="#profile">Profile</a>
-            <a href="#strengths">Strengths</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a class="nav-contact" href="#contact">Let's talk <span aria-hidden="true">↗</span></a>
+          <nav id="site-nav" class="site-nav" data-i18n-aria-label="accessibility.primaryNavigation" aria-label="Primary navigation">
+            <a href="#profile" data-i18n="nav.profile">Profile</a>
+            <a href="#strengths" data-i18n="nav.strengths">Strengths</a>
+            <a href="#experience" data-i18n="nav.experience">Experience</a>
+            <a href="#projects" data-i18n="nav.projects">Projects</a>
+            <a class="nav-contact" href="#contact"><span data-i18n="nav.contact">Let's talk</span> <span aria-hidden="true">↗</span></a>
           </nav>
           <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">
             <span class="theme-icon" aria-hidden="true"></span>
             <span data-theme-label>Dark</span>
           </button>
+          <button id="language-toggle" class="language-toggle" type="button" aria-pressed="false" aria-label="Switch language to Turkish">
+            <span data-i18n="language.label">TR / EN</span>
+          </button>
           <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only" data-i18n="accessibility.toggleNavigation">Toggle navigation</span>
             <span aria-hidden="true"></span><span aria-hidden="true"></span>
           </button>
         </div>
@@ -97,26 +132,26 @@
       <section id="top" class="hero section-shell">
         <div class="container hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow"><span class="eyebrow-rule" aria-hidden="true"></span>Istanbul, Turkey · available for remote work</p>
-            <h1>I build reliable systems for products <em>people use.</em></h1>
-            <p class="hero-role">Backend Engineer <span aria-hidden="true">|</span> Node.js &amp; TypeScript</p>
-            <p class="hero-intro">I work on the part of a product that has to keep its promises: the APIs, data flows, and delivery systems behind a dependable experience.</p>
+            <p class="eyebrow"><span class="eyebrow-rule" aria-hidden="true"></span><span data-i18n="hero.eyebrow">Istanbul, Turkey · available for remote work</span></p>
+            <h1><span data-i18n="hero.titleStart">I build reliable systems for products</span> <em data-i18n="hero.titleEmphasis">people use.</em></h1>
+            <p class="hero-role"><span data-i18n="hero.roleTitle">Backend Engineer</span> <span aria-hidden="true">|</span> <span data-i18n="hero.roleStack">Node.js &amp; TypeScript</span></p>
+            <p class="hero-intro" data-i18n="hero.intro">I work on the part of a product that has to keep its promises: the APIs, data flows, and delivery systems behind a dependable experience.</p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#projects">See selected work <span aria-hidden="true">↘</span></a>
-              <a class="button button-text" href="mailto:dogukannakin@gmail.com">Start a conversation <span aria-hidden="true">↗</span></a>
+              <a class="button button-primary" href="#projects"><span data-i18n="hero.selectedWork">See selected work</span> <span aria-hidden="true">↘</span></a>
+              <a class="button button-text" href="mailto:dogukannakin@gmail.com"><span data-i18n="hero.conversation">Start a conversation</span> <span aria-hidden="true">↗</span></a>
             </div>
-            <div class="social-links" aria-label="Social links">
-              <a href="https://github.com/dogukanakin" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-              <a href="https://www.linkedin.com/in/dogukanakinn/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
-              <a href="mailto:dogukannakin@gmail.com">Email <span aria-hidden="true">↗</span></a>
+            <div class="social-links" data-i18n-aria-label="accessibility.socialLinks" aria-label="Social links">
+              <a href="https://github.com/dogukanakin" target="_blank" rel="noreferrer"><span data-i18n="social.github">GitHub</span> <span aria-hidden="true">↗</span></a>
+              <a href="https://www.linkedin.com/in/dogukanakinn/" target="_blank" rel="noreferrer"><span data-i18n="social.linkedin">LinkedIn</span> <span aria-hidden="true">↗</span></a>
+              <a href="mailto:dogukannakin@gmail.com"><span data-i18n="social.email">Email</span> <span aria-hidden="true">↗</span></a>
             </div>
           </div>
 
-          <aside class="hero-aside" aria-label="Professional summary">
-            <div class="aside-intro">A little about how I work</div>
-            <div class="aside-stat"><strong>3+</strong><span>years of professional<br />software engineering</span></div>
-            <div class="aside-note">Backend-first, product-minded. I can take an idea from a well-shaped service to a useful end-to-end experience when the work calls for it.</div>
-            <div class="aside-signature">Doğukan Akın <span aria-hidden="true">—</span> Software Engineer</div>
+          <aside class="hero-aside" data-i18n-aria-label="accessibility.professionalSummary" aria-label="Professional summary">
+            <div class="aside-intro" data-i18n="hero.asideIntro">A little about how I work</div>
+            <div class="aside-stat"><strong>3+</strong><span data-i18n="hero.yearsLabel">years of professional software engineering</span></div>
+            <div class="aside-note" data-i18n="hero.asideNote">Backend-first, product-minded. I can take an idea from a well-shaped service to a useful end-to-end experience when the work calls for it.</div>
+            <div class="aside-signature"><span data-i18n="site.name">Doğukan Akın</span> <span aria-hidden="true">—</span> <span data-i18n="hero.signatureRole">Software Engineer</span></div>
           </aside>
         </div>
       </section>
@@ -124,14 +159,14 @@
       <section id="profile" class="section-shell section-tint">
         <div class="container split-layout">
           <div class="section-heading">
-            <p class="eyebrow">01 / Profile</p>
-            <h2>Good engineering<br /><em>feels simple.</em></h2>
+            <p class="eyebrow" data-i18n="profile.eyebrow">01 / Profile</p>
+            <h2><span data-i18n="profile.headingStart">Good engineering</span><br /><em data-i18n="profile.headingEmphasis">feels simple.</em></h2>
           </div>
           <div class="section-content profile-content">
-            <p class="lead">I build and operate production backend systems with TypeScript, Node.js, PostgreSQL, and the tools that help teams ship with confidence.</p>
-            <p>That means clear APIs, sensible data boundaries, asynchronous workflows, and delivery paths that can be understood when something goes wrong. My main focus is backend engineering; when useful, I can also carry that work through to a React or Next.js product experience.</p>
-            <div class="stack-row" aria-label="Technology stack">
-              <span>Node.js</span><span>TypeScript</span><span>PostgreSQL</span><span>Microservices</span><span>RabbitMQ</span><span>Docker</span><span>Kubernetes</span><span>AWS</span><span>Azure DevOps</span>
+            <p class="lead" data-i18n="profile.lead">I build and operate production backend systems with TypeScript, Node.js, PostgreSQL, and the tools that help teams ship with confidence.</p>
+            <p data-i18n="profile.body">That means clear APIs, sensible data boundaries, asynchronous workflows, and delivery paths that can be understood when something goes wrong. My main focus is backend engineering; when useful, I can also carry that work through to a React or Next.js product experience.</p>
+            <div class="stack-row" data-i18n-aria-label="accessibility.technologyStack" aria-label="Technology stack">
+              <span data-i18n="profile.stack.node">Node.js</span><span data-i18n="profile.stack.typescript">TypeScript</span><span data-i18n="profile.stack.postgres">PostgreSQL</span><span data-i18n="profile.stack.microservices">Microservices</span><span data-i18n="profile.stack.rabbitmq">RabbitMQ</span><span data-i18n="profile.stack.docker">Docker</span><span data-i18n="profile.stack.kubernetes">Kubernetes</span><span data-i18n="profile.stack.aws">AWS</span><span data-i18n="profile.stack.azure">Azure DevOps</span>
             </div>
           </div>
         </div>
@@ -140,14 +175,14 @@
       <section id="strengths" class="section-shell">
         <div class="container">
           <div class="section-heading section-heading-wide">
-            <p class="eyebrow">02 / Core strengths</p>
-            <h2>The work behind<br /><em>the work.</em></h2>
+            <p class="eyebrow" data-i18n="strengths.eyebrow">02 / Core strengths</p>
+            <h2><span data-i18n="strengths.headingStart">The work behind</span><br /><em data-i18n="strengths.headingEmphasis">the work.</em></h2>
           </div>
           <div class="strength-list">
-            <article class="strength-item"><span class="item-index">01</span><div><h3>Scalable APIs</h3><p>Clear service boundaries, resilient REST interfaces, and data access designed for change.</p></div><span class="item-arrow" aria-hidden="true">↗</span></article>
-            <article class="strength-item"><span class="item-index">02</span><div><h3>Event-driven services</h3><p>Asynchronous workflows and message contracts that let systems move without tight coupling.</p></div><span class="item-arrow" aria-hidden="true">↗</span></article>
-            <article class="strength-item"><span class="item-index">03</span><div><h3>Secure API design</h3><p>OAuth2/OIDC, Keycloak, RBAC, validation, and structured errors considered from day one.</p></div><span class="item-arrow" aria-hidden="true">↗</span></article>
-            <article class="strength-item"><span class="item-index">04</span><div><h3>Delivery &amp; observability</h3><p>CI/CD, containerized deployments, correlation IDs, monitoring, and incident-ready logs.</p></div><span class="item-arrow" aria-hidden="true">↗</span></article>
+            <article class="strength-item"><span class="item-index">01</span><div><h3 data-i18n="strengths.items.0.title">Scalable APIs</h3><p data-i18n="strengths.items.0.description">Clear service boundaries, resilient REST interfaces, and data access designed for change.</p></div><span class="item-arrow" aria-hidden="true">↗</span></article>
+            <article class="strength-item"><span class="item-index">02</span><div><h3 data-i18n="strengths.items.1.title">Event-driven services</h3><p data-i18n="strengths.items.1.description">Asynchronous workflows and message contracts that let systems move without tight coupling.</p></div><span class="item-arrow" aria-hidden="true">↗</span></article>
+            <article class="strength-item"><span class="item-index">03</span><div><h3 data-i18n="strengths.items.2.title">Secure API design</h3><p data-i18n="strengths.items.2.description">OAuth2/OIDC, Keycloak, RBAC, validation, and structured errors considered from day one.</p></div><span class="item-arrow" aria-hidden="true">↗</span></article>
+            <article class="strength-item"><span class="item-index">04</span><div><h3 data-i18n="strengths.items.3.title">Delivery &amp; observability</h3><p data-i18n="strengths.items.3.description">CI/CD, containerized deployments, correlation IDs, monitoring, and incident-ready logs.</p></div><span class="item-arrow" aria-hidden="true">↗</span></article>
           </div>
         </div>
       </section>
@@ -155,27 +190,27 @@
       <section id="experience" class="section-shell section-tint">
         <div class="container split-layout experience-layout">
           <div class="section-heading">
-            <p class="eyebrow">03 / Experience</p>
-            <h2>Built across<br /><em>real contexts.</em></h2>
-            <p class="heading-note">A backend-first track across automotive software, education technology, and web products.</p>
+            <p class="eyebrow" data-i18n="experience.eyebrow">03 / Experience</p>
+            <h2><span data-i18n="experience.headingStart">Built across</span><br /><em data-i18n="experience.headingEmphasis">real contexts.</em></h2>
+            <p class="heading-note" data-i18n="experience.note">A backend-first track across automotive software, education technology, and web products.</p>
           </div>
           <div class="timeline">
             <article class="timeline-item">
-              <div class="timeline-meta"><span>Current</span><span>AVL Turkey</span></div>
-              <h3>Software Engineer / Backend Focus</h3>
-              <p>Build TypeScript/Node.js microservices and PostgreSQL-backed APIs for a cybersecurity penetration-testing platform. Work includes OAuth2/OIDC with Keycloak, RBAC, Prisma, structured logging, and correlation IDs.</p>
-              <p>Also develop RabbitMQ event-driven services for asynchronous automotive validation workflows and support delivery with Azure DevOps CI/CD and Kubernetes deployments across production environments.</p>
+              <div class="timeline-meta"><span data-i18n="experience.items.0.meta">Current</span><span data-i18n="experience.items.0.company">AVL Turkey</span></div>
+              <h3 data-i18n="experience.items.0.role">Software Engineer / Backend Focus</h3>
+              <p data-i18n="experience.items.0.paragraphs.0">Build TypeScript/Node.js microservices and PostgreSQL-backed APIs for a cybersecurity penetration-testing platform. Work includes OAuth2/OIDC with Keycloak, RBAC, Prisma, structured logging, and correlation IDs.</p>
+              <p data-i18n="experience.items.0.paragraphs.1">Also develop RabbitMQ event-driven services for asynchronous automotive validation workflows and support delivery with Azure DevOps CI/CD and Kubernetes deployments across production environments.</p>
             </article>
             <article class="timeline-item">
-              <div class="timeline-meta"><span>Product ownership</span><span>StudyAITool</span></div>
-              <h3>Founder &amp; Full Stack Developer</h3>
-              <p>Built and operated an AI-supported education product with Node.js APIs, AI-assisted content and recommendation flows, and a product experience serving 50K+ users with 100K+ monthly views.</p>
-              <p>Own AWS deployment, CI/CD, monitoring, and the practical trade-offs required to keep a growing product moving.</p>
+              <div class="timeline-meta"><span data-i18n="experience.items.1.meta">Product ownership</span><span data-i18n="experience.items.1.company">StudyAITool</span></div>
+              <h3 data-i18n="experience.items.1.role">Founder &amp; Full Stack Developer</h3>
+              <p data-i18n="experience.items.1.paragraphs.0">Built and operated an AI-supported education product with Node.js APIs, AI-assisted content and recommendation flows, and a product experience serving 50K+ users with 100K+ monthly views.</p>
+              <p data-i18n="experience.items.1.paragraphs.1">Own AWS deployment, CI/CD, monitoring, and the practical trade-offs required to keep a growing product moving.</p>
             </article>
             <article class="timeline-item">
-              <div class="timeline-meta"><span>Earlier</span><span>SER Danışmanlık</span></div>
-              <h3>Software Engineer</h3>
-              <p>Developed Django and PostgreSQL-backed web applications, improved backend performance through query optimization and caching, and supported Docker, AWS, monitoring, and CI/CD workflows.</p>
+              <div class="timeline-meta"><span data-i18n="experience.items.2.meta">Earlier</span><span data-i18n="experience.items.2.company">SER Danışmanlık</span></div>
+              <h3 data-i18n="experience.items.2.role">Software Engineer</h3>
+              <p data-i18n="experience.items.2.paragraphs.0">Developed Django and PostgreSQL-backed web applications, improved backend performance through query optimization and caching, and supported Docker, AWS, monitoring, and CI/CD workflows.</p>
             </article>
           </div>
         </div>
@@ -185,21 +220,21 @@
         <div class="container">
           <div class="projects-header">
             <div class="section-heading">
-              <p class="eyebrow">04 / Selected projects</p>
-              <h2>Projects with a<br /><em>clear point of view.</em></h2>
+              <p class="eyebrow" data-i18n="projects.eyebrow">04 / Selected projects</p>
+              <h2><span data-i18n="projects.headingStart">Projects with a</span><br /><em data-i18n="projects.headingEmphasis">clear point of view.</em></h2>
             </div>
-            <a class="text-link" href="https://github.com/dogukanakin?tab=repositories" target="_blank" rel="noreferrer">View all repositories <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="https://github.com/dogukanakin?tab=repositories" target="_blank" rel="noreferrer" data-i18n-aria-label="accessibility.viewAllRepositories"><span data-i18n="projects.viewAll">View all repositories</span> <span aria-hidden="true">↗</span></a>
           </div>
           <div class="project-list">
             <article class="project-row">
               <div class="project-number">01</div>
-              <div class="project-main"><p class="project-type">Microservice</p><h3>HTML to PDF Microservice</h3><p>A containerized Node.js and TypeScript REST API for configurable HTML and web-page to PDF rendering with Express and Puppeteer.</p><div class="tag-list"><span>Node.js</span><span>TypeScript</span><span>Docker</span></div></div>
-              <a class="project-link" href="https://github.com/dogukanakin/HTML-to-PDF-Microservice" target="_blank" rel="noreferrer" aria-label="View HTML to PDF Microservice on GitHub">View project <span aria-hidden="true">↗</span></a>
+              <div class="project-main"><p class="project-type" data-i18n="projects.items.0.type">Microservice</p><h3 data-i18n="projects.items.0.title">HTML to PDF Microservice</h3><p data-i18n="projects.items.0.description">A containerized Node.js and TypeScript REST API for configurable HTML and web-page to PDF rendering with Express and Puppeteer.</p><div class="tag-list"><span data-i18n="projects.items.0.tags.0">Node.js</span><span data-i18n="projects.items.0.tags.1">TypeScript</span><span data-i18n="projects.items.0.tags.2">Docker</span></div></div>
+              <a class="project-link" href="https://github.com/dogukanakin/HTML-to-PDF-Microservice" target="_blank" rel="noreferrer" data-i18n-aria-label="accessibility.viewHtmlProject"><span data-i18n="projects.viewProject">View project</span> <span aria-hidden="true">↗</span></a>
             </article>
             <article class="project-row">
               <div class="project-number">02</div>
-              <div class="project-main"><p class="project-type">CLI tool</p><h3>React Native Heap Snapshot Analyzer</h3><p>A TypeScript CLI for analyzing Hermes heap snapshots with specialized detectors for memory leaks, cache bloat, and performance bottlenecks.</p><div class="tag-list"><span>TypeScript</span><span>Node.js</span><span>CLI</span></div></div>
-              <a class="project-link" href="https://github.com/dogukanakin/react-native-heap-analyzer" target="_blank" rel="noreferrer" aria-label="View React Native Heap Snapshot Analyzer on GitHub">View project <span aria-hidden="true">↗</span></a>
+              <div class="project-main"><p class="project-type" data-i18n="projects.items.1.type">CLI tool</p><h3 data-i18n="projects.items.1.title">React Native Heap Snapshot Analyzer</h3><p data-i18n="projects.items.1.description">A TypeScript CLI for analyzing Hermes heap snapshots with specialized detectors for memory leaks, cache bloat, and performance bottlenecks.</p><div class="tag-list"><span data-i18n="projects.items.1.tags.0">TypeScript</span><span data-i18n="projects.items.1.tags.1">Node.js</span><span data-i18n="projects.items.1.tags.2">CLI</span></div></div>
+              <a class="project-link" href="https://github.com/dogukanakin/react-native-heap-analyzer" target="_blank" rel="noreferrer" data-i18n-aria-label="accessibility.viewHeapProject"><span data-i18n="projects.viewProject">View project</span> <span aria-hidden="true">↗</span></a>
             </article>
           </div>
         </div>
@@ -208,21 +243,22 @@
       <section id="contact" class="section-shell contact-section">
         <div class="container contact-layout">
           <div>
-            <p class="eyebrow">05 / Contact</p>
-            <h2>Let's build something<br /><em>worth keeping.</em></h2>
+            <p class="eyebrow" data-i18n="contact.eyebrow">05 / Contact</p>
+            <h2><span data-i18n="contact.headingStart">Let's build something</span><br /><em data-i18n="contact.headingEmphasis">worth keeping.</em></h2>
           </div>
           <div class="contact-actions">
-            <p>If you are working on a product where the backend matters, I would be glad to hear what you are building.</p>
-            <a class="button button-primary" href="mailto:dogukannakin@gmail.com">dogukannakin@gmail.com <span aria-hidden="true">↗</span></a>
+            <p data-i18n="contact.intro">If you are working on a product where the backend matters, I would be glad to hear what you are building.</p>
+            <a class="button button-primary" href="mailto:dogukannakin@gmail.com"><span data-i18n="contact.email">dogukannakin@gmail.com</span> <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-wrap"><span>© <span id="year"></span> Doğukan Akın</span><span>Backend Engineer · Node.js &amp; TypeScript</span><a href="#top">Back to top ↑</a></div>
+      <div class="container footer-wrap"><span>© <span id="year"></span> <span data-i18n="site.name">Doğukan Akın</span></span><span data-i18n="footer.role">Backend Engineer · Node.js &amp; TypeScript</span><a href="#top" data-i18n-aria-label="accessibility.backToTop" data-i18n="footer.backToTop">Back to top ↑</a></div>
     </footer>
 
+    <script type="module" src="localization.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
