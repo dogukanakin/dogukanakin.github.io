@@ -34,6 +34,6 @@ deterministic browser-locale fallback, not IP-based country detection; the
 site does not request location permission or call a geolocation service.
 
 The contact section includes a Clipboard API email-copy action with a `mailto:`
-fallback, and the CV is available at `assets/cv/dogukan-nodejs-backend.pdf`.
+fallback, and the CV is available at `assets/cv/dogukanakin.pdf`.
 GitHub Pages uses `404.html` for unknown routes; it shares the portfolio theme,
 language switcher, and home CTA.
