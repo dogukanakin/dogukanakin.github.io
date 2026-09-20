@@ -9,10 +9,10 @@
   --muted-strong: #566168;
   --line: #d6ccc0;
   --line-strong: #bfb3a6;
-  --accent: #c55f49;
-  --accent-strong: #a84835;
-  --accent-hover: #913b2c;
-  --accent-soft: rgba(197, 95, 73, .12);
+  --accent: #a84835;
+  --accent-strong: #913b2c;
+  --accent-hover: #7e2f24;
+  --accent-soft: rgba(168, 72, 53, .12);
   --button-text: #fffaf3;
   --max: 1180px;
 }
