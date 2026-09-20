@@ -120,7 +120,8 @@ const applyTranslations = (language) => {
     element.setAttribute('aria-label', translate(element.dataset.i18nAriaLabel));
   });
 
-  document.title = locale.meta.title;
+  const pageTitleKey = document.documentElement.dataset.pageTitleKey;
+  document.title = pageTitleKey ? translate(pageTitleKey) : locale.meta.title;
   setMetaContent('meta[name="description"]', locale.meta.description);
   setMetaContent('meta[name="keywords"]', locale.meta.keywords);
   setMetaContent('meta[property="og:title"]', locale.meta.ogTitle);

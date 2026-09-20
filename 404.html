@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" data-page-title-key="notFound.title">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="The requested portfolio page was not found." />
+    <meta name="theme-color" content="#f3eee7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#171a1c" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Page not found — Doğukan Akın</title>
+    <script>
+      (() => {
+        const normalizeLanguage = (value) => {
+          const language = typeof value === 'string' ? value.toLowerCase().slice(0, 2) : '';
+          return language === 'tr' || language === 'en' ? language : null;
+        };
+
+        let storedLanguage = null;
+        try {
+          storedLanguage = normalizeLanguage(localStorage.getItem('language'));
+        } catch {
+          storedLanguage = null;
+        }
+
+        const queryLanguage = normalizeLanguage(new URLSearchParams(window.location.search).get('lang'));
+        let timeZone = '';
+        try {
+          timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        } catch {
+          timeZone = '';
+        }
+        const languages = Array.isArray(navigator.languages) && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language];
+        const browserIsTurkish = languages.some((language) => String(language).toLowerCase().startsWith('tr'));
+        const initialLanguage = queryLanguage || storedLanguage || (timeZone === 'Europe/Istanbul' || browserIsTurkish ? 'tr' : 'en');
+
+        document.documentElement.dataset.language = initialLanguage;
+        document.documentElement.dataset.localePending = 'true';
+        window.__initialLanguage = initialLanguage;
+
+        try {
+          const stored = localStorage.getItem('theme');
+          const system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.dataset.theme = stored === 'dark' || stored === 'light' ? stored : system;
+        } catch {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content" data-i18n="accessibility.skipToContent">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="./" data-i18n-aria-label="accessibility.brandHome" aria-label="Doğukan Akın home">
+          <span class="brand-mark" aria-hidden="true">DA</span>
+          <span data-i18n="site.name">Doğukan Akın</span>
+        </a>
+        <div class="header-actions">
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">
+            <span class="theme-icon" aria-hidden="true"></span>
+            <span data-theme-label>Dark</span>
+          </button>
+          <button id="language-toggle" class="language-toggle" type="button" aria-pressed="false" aria-label="Switch language to Turkish">
+            <span data-i18n="language.label">TR / EN</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="not-found-page">
+      <div class="container">
+        <div class="not-found-content">
+          <p class="eyebrow"><span class="eyebrow-rule" aria-hidden="true"></span><span data-i18n="notFound.eyebrow">404 / Page not found</span></p>
+          <h1><span data-i18n="notFound.headingStart">This page took a</span><br /><em data-i18n="notFound.headingEmphasis">different route.</em></h1>
+          <p class="not-found-description" data-i18n="notFound.description">The page you are looking for does not exist or may have moved.</p>
+          <a class="button button-primary" href="./" data-i18n-aria-label="accessibility.backToHome" aria-label="Back to home"><span data-i18n="notFound.homeCta">Back to home</span> <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-wrap"><span>© <span id="year"></span> <span data-i18n="site.name">Doğukan Akın</span></span><span data-i18n="footer.role">Backend Engineer · Node.js &amp; TypeScript</span><a href="./" data-i18n-aria-label="accessibility.backToHome" data-i18n="notFound.homeCta">Back to home</a></div>
+    </footer>
+
+    <script type="module" src="localization.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
