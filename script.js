@@ -33,8 +33,9 @@
     }
     if (themeLabel) themeLabel.textContent = isDark ? 'Light' : 'Dark';
 
-    const themeMeta = document.querySelector('meta[name="theme-color"]');
-    if (themeMeta) themeMeta.setAttribute('content', isDark ? '#171a1c' : '#f3eee7');
+    document.querySelectorAll('meta[name="theme-color"]').forEach((themeMeta) => {
+      themeMeta.setAttribute('content', isDark ? '#171a1c' : '#f3eee7');
+    });
   };
 
   applyTheme(readStoredTheme() || systemTheme());
