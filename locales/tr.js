@@ -1,10 +1,10 @@
 export default {
   meta: {
     lang: 'tr',
-    title: 'Doğukan Akın — Backend Mühendisi | Node.js & TypeScript',
+    title: 'Doğukan Akın',
     description: 'Doğukan Akın; Node.js, TypeScript, production API’leri, event-driven servisler ve güvenilir ürün teslimatı üzerine çalışan bir Backend Engineer’dır.',
     keywords: 'Doğukan Akın, Backend Engineer, Node.js, TypeScript, PostgreSQL, mikroservisler',
-    ogTitle: 'Doğukan Akın — Backend Mühendisi | Node.js & TypeScript',
+    ogTitle: 'Doğukan Akın',
     ogDescription: 'Node.js, TypeScript, production API’leri, event-driven servisler ve güvenilir ürün teslimatı üzerine çalışan Backend Engineer.',
     ogLocale: 'tr_TR',
     jsonLdDescription: 'Node.js ve TypeScript odaklı Backend Engineer.',
